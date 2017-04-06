@@ -15,10 +15,10 @@ import javax.persistence.Temporal;
 
 /**
  *
- * @author danie
+ * @author daniel
  */
 @Entity
-@Table(name="tb_pessoaf")
+@Table(name="tb_pessoafis")
 public class PessoaFisica extends Pessoa{
     
     @Column(name="nr_cpf")

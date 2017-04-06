@@ -1,0 +1,1767 @@
+--
+-- ER/Studio Data Architect XE6 SQL Code Generation
+-- Project :      NFCe.DM1
+--
+-- Date Created : Friday, August 21, 2015 17:06:51
+-- Target DBMS : Oracle 11g
+--
+
+-- 
+-- TABLE: AgBancaria 
+--
+
+CREATE TABLE AgenciaBanco(
+	IdBanco          NUMBER(38, 0), NOT NULL,
+    IdAgencia        NUMBER(38, 0)    NOT NULL,
+    NmAgencia        VARCHAR2(60)     NOT NULL,
+    NrAgencia        NUMBER(38, 0)    NOT NULL,
+    NrDV             NUMBER(38, 0),
+    IdLogradouro     NUMBER(38, 0),
+    NrLogradouro     VARCHAR2(7),
+    NmComplemento    VARCHAR2(60),
+    CONSTRAINT PK_AgBancaria PRIMARY KEY (IdAgencia)
+)
+;
+
+
+
+-- 
+-- TABLE: Banco 
+--
+
+CREATE TABLE Banco(
+    IdBanco    NUMBER(38, 0)    NOT NULL,
+    NmBanco    VARCHAR2(60)     NOT NULL,
+    CdBanco    VARCHAR2(5),
+    CONSTRAINT PK_Banco PRIMARY KEY (IdBanco)
+)
+;
+
+
+
+-- 
+-- TABLE: BancoCarteira 
+--
+
+CREATE TABLE BancoCarteira(
+    IdCarteira    NUMBER(38, 0)    NOT NULL,
+    IdBanco       NUMBER(38, 0)    NOT NULL,
+    CdCarteira    NUMBER(38, 0)    NOT NULL,
+    NmCarteira    VARCHAR2(60)     NOT NULL,
+    CONSTRAINT PK_BancoCarteira PRIMARY KEY (IdCarteira)
+)
+;
+
+
+
+-- 
+-- TABLE: BancoInstrucao 
+--
+
+CREATE TABLE BancoInstrucao(
+    IdInstrucao        NUMBER(38, 0)    NOT NULL,
+    IdBanco            NUMBER(38, 0)    NOT NULL,
+    CdInstrucao        NUMBER(38, 0)    NOT NULL,
+    NmInstrucao        VARCHAR2(60)     NOT NULL,
+    InImprimeBoleto    CHAR(1)          NOT NULL,
+    CONSTRAINT PK_BancoInstrucao PRIMARY KEY (IdInstrucao)
+)
+;
+
+
+
+-- 
+-- TABLE: BancoOcorrencia 
+--
+
+CREATE TABLE BancoOcorrencia(
+    IdOcorrencia        NUMBER(38, 0)    NOT NULL,
+    IdBanco             NUMBER(38, 0)    NOT NULL,
+    CdOcorrencia        NUMBER(38, 0)    NOT NULL,
+    NmOcorrencia        BLOB             NOT NULL,
+    InTipoOcorrencia    CHAR(51)         NOT NULL,
+    CONSTRAINT PK_BancoOcorrencia PRIMARY KEY (IdOcorrencia)
+)
+;
+
+
+
+-- 
+-- TABLE: Caixa 
+--
+
+CREATE TABLE Caixa(
+    IdCaixa          NUMBER(38, 0)    NOT NULL,
+    IdEmpresa        NUMBER(38, 0)    NOT NULL,
+    CdCaixa          VARCHAR2(20),
+    NmCaixa          VARCHAR2(60),
+    InStatusCaixa    CHAR(1)          NOT NULL,
+    VlSaldo          NUMBER(9, 2)     NOT NULL,
+    CONSTRAINT PK_Caixa PRIMARY KEY (IdCaixa)
+)
+;
+
+
+
+-- 
+-- TABLE: CaixaMovto 
+--
+
+CREATE TABLE CaixaMovto(
+    IdCaixa            NUMBER(38, 0)    NOT NULL,
+    IdMovtoCaixa       NUMBER(38, 0)    NOT NULL,
+    IdUsuario          NUMBER(38, 0)    NOT NULL,
+    DtMovto            DATE             NOT NULL,
+    InTipoMovto        CHAR(1)          NOT NULL,
+    VlMovto            NUMBER(9, 2)     NOT NULL,
+    InAutoriaLancto    CHAR(1)          NOT NULL,
+    IdNFVenda          NUMBER(38, 0),
+    DsInfo             VARCHAR2(512),
+    CONSTRAINT PK_CaixaMovto PRIMARY KEY (IdCaixa, IdMovtoCaixa)
+)
+;
+
+
+
+-- 
+-- TABLE: Cargo 
+--
+
+CREATE TABLE Cargo(
+    IdCargo    NUMBER(38, 0)    NOT NULL,
+    NmCargo    VARCHAR2(60)     NOT NULL,
+    CdCbo      VARCHAR2(7),
+    CONSTRAINT PK_Cargo PRIMARY KEY (IdCargo)
+)
+;
+
+
+
+-- 
+-- TABLE: CategoriaTrab 
+--
+
+CREATE TABLE CategoriaTrab(
+    IdCategoriaTrab    NUMBER(38, 0)    NOT NULL,
+    CdCategoriaTrab    NUMBER(38, 0)    NOT NULL,
+    NmCategoriaTrab    VARCHAR2(60)     NOT NULL,
+    InGrupoCatTrab     NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_CategoriaTrab PRIMARY KEY (IdCategoriaTrab)
+)
+;
+
+
+
+-- 
+-- TABLE: Cfop 
+--
+
+CREATE TABLE Cfop(
+    IdCfop         NUMBER(38, 0)     NOT NULL,
+    CdCfop         VARCHAR2(4)       NOT NULL,
+    NmCfop         VARCHAR2(60)      NOT NULL,
+    DsCfop         VARCHAR2(1024),
+    InGrupoCfop    NUMBER(38, 0)     NOT NULL,
+    CONSTRAINT PK_Cfop PRIMARY KEY (IdCfop)
+)
+;
+
+
+
+-- 
+-- TABLE: ClassFiscalProduto 
+--
+
+CREATE TABLE ClassFiscalProduto(
+    IdNcm    NUMBER(38, 0)    NOT NULL,
+    CdNcm    VARCHAR2(8)      NOT NULL,
+    DsNcm    VARCHAR2(60)     NOT NULL,
+    PeIpi    NUMBER(3, 2),
+    CONSTRAINT PK_Ncm PRIMARY KEY (IdNcm)
+)
+;
+
+
+
+-- 
+-- TABLE: ClassTrib 
+--
+
+CREATE TABLE ClassTrib(
+    IdClassTrib    NUMBER(38, 0)    NOT NULL,
+    CdClassTrib    NUMBER(38, 0)    NOT NULL,
+    NmClassTrib    VARCHAR2(256)    NOT NULL,
+    CONSTRAINT PK_ClassTrib PRIMARY KEY (IdClassTrib)
+)
+;
+
+
+
+-- 
+-- TABLE: Cliente 
+--
+
+CREATE TABLE Cliente(
+    IdCliente     NUMBER(38, 0)    NOT NULL,
+    IdPessoa      NUMBER(38, 0)    NOT NULL,
+    IdEmpresa     NUMBER(38, 0)    NOT NULL,
+    DtCadastro    DATE             NOT NULL,
+    CONSTRAINT PK_Cliente PRIMARY KEY (IdCliente)
+)
+;
+
+
+
+-- 
+-- TABLE: CondicaoPagto 
+--
+
+CREATE TABLE CondicaoPagto(
+    IdCondPagto        NUMBER(38, 0)    NOT NULL,
+    CdCondPagto        VARCHAR2(10)     NOT NULL,
+    NmCondPagto        VARCHAR2(60)     NOT NULL,
+    InTipoCondPagto    NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_CondicaoPagto PRIMARY KEY (IdCondPagto)
+)
+;
+
+
+
+-- 
+-- TABLE: CondPagtoParcela 
+--
+
+CREATE TABLE CondPagtoParcela(
+    IdCondPagto      NUMBER(38, 0)    NOT NULL,
+    IdParcela        NUMBER(38, 0)    NOT NULL,
+    QtDiasParcela    NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_CondicaoPagtoParcela PRIMARY KEY (IdCondPagto, IdParcela)
+)
+;
+
+
+
+-- 
+-- TABLE: ContaCorrente 
+--
+
+CREATE TABLE ContaCorrente(
+    IdContaCorrente    NUMBER(38, 0)    NOT NULL,
+    IdAgencia          NUMBER(38, 0)    NOT NULL,
+    NrContaCorrente    NUMBER(38, 0)    NOT NULL,
+    NrDV               CHAR(51)         NOT NULL,
+    InTipoConta        NUMBER(38, 0)    NOT NULL,
+    CdCedente          VARCHAR2(20),
+    CONSTRAINT PK_ContaCorrente PRIMARY KEY (IdContaCorrente)
+)
+;
+
+
+
+-- 
+-- TABLE: Empresa 
+--
+
+CREATE TABLE Empresa(
+    IdEmpresa          NUMBER(38, 0)    NOT NULL,
+    IdEmpresaMatriz    NUMBER(38, 0),
+    IdPessoa           NUMBER(38, 0)    NOT NULL,
+    CdCnae             VARCHAR2(8),
+    VlFap              NUMBER(1, 2),
+    PeRat              NUMBER(3, 2),
+    CONSTRAINT PK_Empresa PRIMARY KEY (IdEmpresa)
+)
+;
+
+
+
+-- 
+-- TABLE: EspecieFatura 
+--
+
+CREATE TABLE EspecieFatura(
+    IdEspecieFat    NUMBER(38, 0)    NOT NULL,
+    CdEspecieFat    NUMBER(38, 0)    NOT NULL,
+    NmEspecieFat    VARCHAR2(60)     NOT NULL,
+    CONSTRAINT PK_EspecieFatura PRIMARY KEY (IdEspecieFat)
+)
+;
+
+
+
+-- 
+-- TABLE: Fatura 
+--
+
+CREATE TABLE Fatura(
+    IdFatura           NUMBER(38, 0)    NOT NULL,
+    NrFatura           NUMBER(38, 0)    NOT NULL,
+    IdSerie            NUMBER(38, 0)    NOT NULL,
+    IdEmpresa          NUMBER(38, 0)    NOT NULL,
+    InTipoFatura       CHAR(1)          NOT NULL,
+    IdEspecieFat       NUMBER(38, 0)    NOT NULL,
+    IdEspecieFatura    NUMBER(38, 0)    NOT NULL,
+    IdCondPagto        NUMBER(38, 0)    NOT NULL,
+    IdCedente          NUMBER(38, 0)    NOT NULL,
+    IdSacado           NUMBER(38, 0)    NOT NULL,
+    NrParcela          NUMBER(38, 0)    NOT NULL,
+    IdContaCorrente    NUMBER(38, 0),
+    IdCarteira         NUMBER(38, 0),
+    NossoNumero        VARCHAR2(20),
+    DtEmissao          DATE             NOT NULL,
+    DtVencto           DATE             NOT NULL,
+    VlFatura           NUMBER(9, 2)     NOT NULL,
+    DtLimiteDesc       DATE,
+    VlDesconto         NUMBER(9, 2),
+    PeJuroDia          NUMBER(3, 2),
+    PeMultaAtraso      NUMBER(3, 2),
+    InStatusFat        NUMBER(38, 0),
+    InEnviadoBanco     CHAR(1),
+    DtEnvioBanco       DATE,
+    CONSTRAINT PK_Fatura PRIMARY KEY (IdFatura)
+)
+;
+
+
+
+-- 
+-- TABLE: FaturaInstrucao 
+--
+
+CREATE TABLE FaturaInstrucao(
+    IdFatura          NUMBER(38, 0)    NOT NULL,
+    IdInstrucao       NUMBER(38, 0)    NOT NULL,
+    NrSeqInstrucao    NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_FaturaInstrucao PRIMARY KEY (IdFatura, IdInstrucao)
+)
+;
+
+
+
+-- 
+-- TABLE: FaturaLancto 
+--
+
+CREATE TABLE FaturaLancto(
+    IdFatura           NUMBER(38, 0)    NOT NULL,
+    IdLancto           NUMBER(38, 0)    NOT NULL,
+    DtLancto           DATE             NOT NULL,
+    VlLancto           NUMBER(9, 2)     NOT NULL,
+    InAutoriaLancto    CHAR(1)          NOT NULL,
+    CONSTRAINT PK_FaturaLancto PRIMARY KEY (IdFatura, IdLancto)
+)
+;
+
+
+
+-- 
+-- TABLE: Fornecedor 
+--
+
+CREATE TABLE Fornecedor(
+    IdFornecedor    NUMBER(38, 0)    NOT NULL,
+    IdPessoa        NUMBER(38, 0)    NOT NULL,
+    IdEmpresa       NUMBER(38, 0)    NOT NULL,
+    DtCadastro      DATE             NOT NULL,
+    CONSTRAINT PK_Fornecedor PRIMARY KEY (IdFornecedor)
+)
+;
+
+
+
+-- 
+-- TABLE: Funcionario 
+--
+
+CREATE TABLE Funcionario(
+    IdFuncionario      NUMBER(38, 0)    NOT NULL,
+    IdPessoa           NUMBER(38, 0)    NOT NULL,
+    IdEmpresa          NUMBER(38, 0)    NOT NULL,
+    NrMatricula        NUMBER(38, 0)    NOT NULL,
+    DtAdmissao         DATE             NOT NULL,
+    IdCargo            NUMBER(38, 0),
+    VlSalario          NUMBER(9, 2),
+    InUnidSalario      NUMBER(38, 0),
+    InAposentado       CHAR(1),
+    InRegimeTrab       NUMBER(38, 0),
+    InRegimePrev       NUMBER(38, 0),
+    IdJornada          NUMBER(38, 0),
+    InNaturezaAtiv     NUMBER(38, 0),
+    IdCategoriaTrab    NUMBER(38, 0),
+    InContratoTemp     CHAR(1)          NOT NULL,
+    DtOpcaoFgts        DATE,
+    DtFimContrato      DATE,
+    CONSTRAINT PK_Funcionario PRIMARY KEY (IdFuncionario)
+)
+;
+
+
+
+-- 
+-- TABLE: FuncionarioDef 
+--
+
+CREATE TABLE FuncionarioDef(
+    IdFuncionario       NUMBER(38, 0)    NOT NULL,
+    InDefVisual         CHAR(1)          NOT NULL,
+    InDefFisica         CHAR(1)          NOT NULL,
+    InDefAuditifiva     CHAR(1)          NOT NULL,
+    InDefMental         CHAR(1)          NOT NULL,
+    InDefIntelectual    CHAR(1)          NOT NULL,
+    InReabilitado       CHAR(1)          NOT NULL,
+    CONSTRAINT PK_FuncionarioDef PRIMARY KEY (IdFuncionario)
+)
+;
+
+
+
+-- 
+-- TABLE: FuncionarioDep 
+--
+
+CREATE TABLE FuncionarioDep(
+    IdFuncionario      NUMBER(38, 0)    NOT NULL,
+    IdDep              NUMBER(38, 0)    NOT NULL,
+    IdTipoDep          NUMBER(38, 0)    NOT NULL,
+    NmDep              VARCHAR2(60)     NOT NULL,
+    NrCpfDep           VARCHAR2(11),
+    DtNascto           DATE,
+    InDepIrrf          CHAR(1),
+    InDepSalFamilia    CHAR(1),
+    InDepPensao        CHAR(1),
+    CONSTRAINT PK_FuncionarioDep PRIMARY KEY (IdFuncionario, IdDep)
+)
+;
+
+
+
+-- 
+-- TABLE: FuncionarioDeslig 
+--
+
+CREATE TABLE FuncionarioDeslig(
+    IdFuncionario      NUMBER(38, 0)    NOT NULL,
+    CdMotivo           CHAR(2)          NOT NULL,
+    DtDeslig           DATE             NOT NULL,
+    NrCertidaoObito    VARCHAR2(20),
+    CONSTRAINT PK_FuncionarioDeslig PRIMARY KEY (IdFuncionario)
+)
+;
+
+
+
+-- 
+-- TABLE: Horario 
+--
+
+CREATE TABLE Horario(
+    IdHorario        NUMBER(38, 0)    NOT NULL,
+    NmHorario        VARCHAR2(60)     NOT NULL,
+    HrEntrada        DATE             NOT NULL,
+    HrSaida          DATE             NOT NULL,
+    NrHorasDia       NUMBER(2, 2)     NOT NULL,
+    InHorarioFixo    CHAR(1)          NOT NULL,
+    CONSTRAINT PK_Horario PRIMARY KEY (IdHorario)
+)
+;
+
+
+
+-- 
+-- TABLE: HorarioIntervalo 
+--
+
+CREATE TABLE HorarioIntervalo(
+    IdHorario           NUMBER(38, 0)    NOT NULL,
+    IdIntervalo         NUMBER(38, 0)    NOT NULL,
+    InIntervaloFixo     CHAR(1)          NOT NULL,
+    NrHorasIntervalo    NUMBER(2, 2)     NOT NULL,
+    HrInicio            DATE,
+    HrFim               DATE,
+    CONSTRAINT PK_HorarioIntervalo PRIMARY KEY (IdHorario, IdIntervalo)
+)
+;
+
+
+
+-- 
+-- TABLE: Jornada 
+--
+
+CREATE TABLE Jornada(
+    IdJornada        NUMBER(38, 0)    NOT NULL,
+    IdEmpresa        NUMBER(38, 0)    NOT NULL,
+    NmJornada        VARCHAR2(60)     NOT NULL,
+    InTipoJornada    NUMBER(38, 0)    NOT NULL,
+    NrHorasSemana    NUMBER(3, 2)     NOT NULL,
+    CONSTRAINT PK_JornadaTrabalho PRIMARY KEY (IdJornada)
+)
+;
+
+
+
+-- 
+-- TABLE: JornadaHorario 
+--
+
+CREATE TABLE JornadaHorario(
+    IdJornadaHorario    NUMBER(38, 0)    NOT NULL,
+    IdJornada           NUMBER(38, 0)    NOT NULL,
+    InDiaSemana         NUMBER(38, 0)    NOT NULL,
+    IdHorario           NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_Jornada PRIMARY KEY (IdJornadaHorario)
+)
+;
+
+
+
+-- 
+-- TABLE: Logradouro 
+--
+
+CREATE TABLE Logradouro(
+    IdLogradouro        NUMBER(38, 0)    NOT NULL,
+    InTipoLogradouro    CHAR(3)          NOT NULL,
+    NmLogradouro        VARCHAR2(60)     NOT NULL,
+    NmBairro            VARCHAR2(60),
+    CdCep               VARCHAR2(8),
+    IdMunicipio         NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_Logradouro PRIMARY KEY (IdLogradouro)
+)
+;
+
+
+
+-- 
+-- TABLE: Municipio 
+--
+
+CREATE TABLE Municipio(
+    IdMunicipio    NUMBER(38, 0)    NOT NULL,
+    NmMunicipio    VARCHAR2(60)     NOT NULL,
+    CdIbge         CHAR(7),
+    IdUf           NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_Municipio PRIMARY KEY (IdMunicipio)
+)
+;
+
+
+
+-- 
+-- TABLE: NatJuridica 
+--
+
+CREATE TABLE NatJuridica(
+    IdNatJuridica    NUMBER(38, 0)    NOT NULL,
+    CdNatJuridica    NUMBER(38, 0)    NOT NULL,
+    NmNatJuridica    VARCHAR2(256)    NOT NULL,
+    CONSTRAINT PK_NatJuridica PRIMARY KEY (IdNatJuridica)
+)
+;
+
+
+
+-- 
+-- TABLE: NfPagamento 
+--
+
+CREATE TABLE NfPagamento(
+    IdNf              NUMBER(38, 0)    NOT NULL,
+    IdPagto           NUMBER(38, 0)    NOT NULL,
+    InFormaPagto      CHAR(2)          NOT NULL,
+    VlPagto           NUMBER(9, 2)     NOT NULL,
+    InBandeiraCard    CHAR(2),
+    NrCnpjCard        VARCHAR2(14),
+    NrAutoOpCard      VARCHAR2(20),
+    CONSTRAINT PKNfPagto PRIMARY KEY (IdNf, IdPagto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProduto 
+--
+
+CREATE TABLE NfProduto(
+    IdNf           NUMBER(38, 0)     NOT NULL,
+    IdProduto      NUMBER(38, 0)     NOT NULL,
+    IdCfop         NUMBER(38, 0)     NOT NULL,
+    QtProduto      NUMBER(9, 2)      NOT NULL,
+    VlUnitario     NUMBER(9, 2)      NOT NULL,
+    VlTotal        NUMBER(9, 2)      NOT NULL,
+    VlFrete        NUMBER(9, 2),
+    VlSeguro       NUMBER(9, 2),
+    VlDesconto     NUMBER(9, 2),
+    VlOutro        NUMBER(9, 2),
+    VlAproxTrib    NUMBER(9, 2)      NOT NULL,
+    DsInfo         VARCHAR2(1024),
+    CONSTRAINT PK_NfProduto PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProdutoCofins 
+--
+
+CREATE TABLE NfProdutoCofins(
+    IdNf            NUMBER(38, 0)    NOT NULL,
+    IdProduto       NUMBER(38, 0)    NOT NULL,
+    CdCstCofins     NUMBER(38, 0)    NOT NULL,
+    VlBcCofins      NUMBER(9, 2),
+    PeCofins        NUMBER(3, 2),
+    QtProduto       NUMBER(9, 2),
+    VlProduto       NUMBER(9, 2),
+    VlCofins        NUMBER(9, 2),
+    VlBcCofinsSt    NUMBER(9, 2),
+    PeCofinsSt      NUMBER(3, 2),
+    VlCofinsSt      NUMBER(9, 2),
+    CONSTRAINT PK_NfProdutoCofins PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProdutoIcms 
+--
+
+CREATE TABLE NfProdutoIcms(
+    IdNf                         NUMBER(38, 0)    NOT NULL,
+    IdProduto                    NUMBER(38, 0)    NOT NULL,
+    CdCstIcms                    NUMBER(38, 0),
+    InModalIcms                  NUMBER(38, 0),
+    PeRedBcIcms                  NUMBER(3, 2),
+    VlBcIcms                     NUMBER(9, 2),
+    PeIcms                       NUMBER(3, 2),
+    VlIcms                       NUMBER(9, 2),
+    InModalIcmsSt                NUMBER(38, 0),
+    PeMva                        NUMBER(3, 2),
+    PeRedBcIcmsSt                NUMBER(3, 2),
+    VlBcIcmsSt                   NUMBER(9, 2),
+    PeIcmsSt                     NUMBER(3, 2),
+    VlIcmsSt                     NUMBER(9, 2),
+    VlBcIcmsStRet                NUMBER(9, 2),
+    VlIcmsStRet                  NUMBER(9, 2),
+    InMotIcmsDeson               NUMBER(38, 0),
+    VlIcmsDeson                  NUMBER(9, 2),
+    PeIcmsDifer                  NUMBER(3, 2),
+    VlIcmsDifer                  NUMBER(9, 2),
+    VlBcIcmsStDest               NUMBER(9, 2),
+    VlIcmsStDest                 NUMBER(9, 2),
+    CONSTRAINT PK_NfProdutoIcms PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProdutoIcmsSn 
+--
+
+CREATE TABLE NfProdutoIcmsSn(
+    IdNf               NUMBER(38, 0)    NOT NULL,
+    IdProduto          NUMBER(38, 0)    NOT NULL,
+    CdCsosn            NUMBER(38, 0)    NOT NULL,
+    InModalBcIcms      NUMBER(38, 0),
+    PeCreditoIcms      NUMBER(3, 2),
+    VlCreditoIcms      NUMBER(9, 2),
+    PeRedBcIcms        NUMBER(3, 2),
+    VlBcIcms           NUMBER(9, 2),
+    PeIcms             NUMBER(3, 2),
+    VlIcms             NUMBER(9, 2),
+    InModalBcIcmsSt    NUMBER(38, 0),
+    PeMva              NUMBER(3, 2),
+    PeRedBcIcmsSt      NUMBER(3, 2),
+    VlBcIcmsSt         NUMBER(9, 2),
+    PeIcmsSt           NUMBER(3, 2),
+    VlIcmsSt           NUMBER(9, 2),
+    CONSTRAINT PK_NfProdutoIcmsSn PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProdutoIpi 
+--
+
+CREATE TABLE NfProdutoIpi(
+    IdNf           NUMBER(38, 0)    NOT NULL,
+    IdProduto      NUMBER(38, 0)    NOT NULL,
+    CdEnquadIpi    NUMBER(38, 0)    NOT NULL,
+    CdCstIpi       NUMBER(38, 0)    NOT NULL,
+    QtProduto      NUMBER(9, 2),
+    VlProduto      NUMBER(9, 2),
+    VlBcIpi        NUMBER(9, 2),
+    PeIpi          NUMBER(3, 2),
+    VlIpi          NUMBER(9, 2),
+    CONSTRAINT PK_NfProdutoIpi PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfProdutoPis 
+--
+
+CREATE TABLE NfProdutoPis(
+    IdNf         NUMBER(38, 0)    NOT NULL,
+    IdProduto    NUMBER(38, 0)    NOT NULL,
+    CdCstPis     NUMBER(38, 0)    NOT NULL,
+    VlBcPis      NUMBER(9, 2),
+    PePis        NUMBER(3, 2),
+    QtProduto    NUMBER(9, 2),
+    VlProduto    NUMBER(9, 2),
+    VlPis        NUMBER(9, 2),
+    VlBcPisSt    NUMBER(9, 2),
+    PePisSt      NUMBER(3, 2),
+    VlPisSt      NUMBER(9, 2),
+    CONSTRAINT PK_NfProdutoPis PRIMARY KEY (IdNf, IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: NfTotal 
+--
+
+CREATE TABLE NfTotal(
+    IdNf               NUMBER(38, 0)    NOT NULL,
+    VlTotalNf          NUMBER(9, 2)     NOT NULL,
+    VlBcIcms           NUMBER(9, 2),
+    VlIcms             NUMBER(9, 2),
+    VlIcmsDeson        NUMBER(9, 2),
+    VlBcIcmsSt         NUMBER(9, 2),
+    VlIcmsSt           NUMBER(9, 2),
+    VlProduto          NUMBER(9, 2),
+    VlServico          NUMBER(9, 2),
+    VlFrete            NUMBER(9, 2),
+    VlDesconto         NUMBER(9, 2),
+    VlSeguro           NUMBER(9, 2),
+    VlOutro            NUMBER(9, 2),
+    VlIpi              NUMBER(9, 2),
+    VlPis              NUMBER(9, 2),
+    VlCofins           NUMBER(9, 2),
+    VlPisRet           NUMBER(9, 2),
+    VlCofinsRet        NUMBER(9, 2),
+    VlCsllRet          NUMBER(9, 2),
+    VlBcIrrf           NUMBER(9, 2),
+    VlIrrfRet          NUMBER(9, 2),
+    VlBcPrevSocial     NUMBER(9, 2),
+    VlPrevSocialRet    NUMBER(9, 2),
+    VlAproxTrib        NUMBER(9, 2)     NOT NULL,
+    CONSTRAINT PK_NfTotal PRIMARY KEY (IdNf)
+)
+;
+
+
+
+-- 
+-- TABLE: NotaFiscal 
+--
+
+CREATE TABLE NotaFiscal(
+    IdNf              NUMBER(38, 0)     NOT NULL,
+    IdEmpresa         NUMBER(38, 0)     NOT NULL,
+    IdCliente         NUMBER(38, 0)     NOT NULL,
+    NrNf              NUMBER(38, 0)     NOT NULL,
+    IdSerie           NUMBER(38, 0)     NOT NULL,
+    InModeloNf        NUMBER(38, 0)     NOT NULL,
+    DtEmissao         TIMESTAMP(6)      NOT NULL,
+    DtSaida           TIMESTAMP(6)      NOT NULL,
+    InFinalidadeNf    NUMBER(38, 0)     NOT NULL,
+    InOpConsFinal     CHAR(51)          NOT NULL,
+    InModalFrete      NUMBER(38, 0)     NOT NULL,
+    IdCondPagto       NUMBER(38, 0)     NOT NULL,
+    IdCaixa           NUMBER(38, 0),
+    DsInfo            VARCHAR2(1024),
+    CONSTRAINT PK_NotaFiscal PRIMARY KEY (IdNf)
+)
+;
+
+
+
+-- 
+-- TABLE: Pais 
+--
+
+CREATE TABLE Pais(
+    IdPais     NUMBER(38, 0)    NOT NULL,
+    NmPais     VARCHAR2(60)     NOT NULL,
+    NmAbrev    VARCHAR2(3),
+    CdPais     NUMBER(38, 0),
+    CONSTRAINT PK_Pais PRIMARY KEY (IdPais)
+)
+;
+
+
+
+-- 
+-- TABLE: PerfilAcesso 
+--
+
+CREATE TABLE PerfilAcesso(
+    IdPerfilAcesso        NUMBER(38, 0)    NOT NULL,
+    NmPerfilAcesso        VARCHAR2(60)     NOT NULL,
+    InTipoPerfil          NUMBER(38, 0)    NOT NULL,
+    IdPermiteCriar        CHAR(1)          NOT NULL,
+    InPermiteEditar       CHAR(1)          NOT NULL,
+    InPermiteExcluir      CHAR(1)          NOT NULL,
+    InPermitePesquisar    CHAR(1)          NOT NULL,
+    InPermiteVer          CHAR(1)          NOT NULL,
+    CONSTRAINT PK_PerfilAcesso PRIMARY KEY (IdPerfilAcesso)
+)
+;
+
+
+
+-- 
+-- TABLE: Pessoa 
+--
+
+CREATE TABLE Pessoa(
+    IdPessoa         NUMBER(38, 0)    NOT NULL,
+    InTipoPessoa     CHAR(2)          NOT NULL,
+    IdLogradouro     NUMBER(38, 0),
+    NrLogradouro     VARCHAR2(7),
+    NmComplemento    VARCHAR2(60),
+    CONSTRAINT PK_Pessoa PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaContato 
+--
+
+CREATE TABLE PessoaContato(
+    IdPessoa        NUMBER(38, 0)     NOT NULL,
+    IdContato       NUMBER(38, 0)     NOT NULL,
+    NrFoneRes       VARCHAR2(20),
+    NrFoneCom       VARCHAR2(20),
+    NrFoneCel       VARCHAR2(20),
+    NmEmailPes      VARCHAR2(60),
+    NmEmailProf     VARCHAR2(60),
+    NrCpfContato    VARCHAR2(11),
+    NmContato       VARCHAR2(60)      NOT NULL,
+    InPrincipal     CHAR(1),
+    DsInfo          VARCHAR2(1024),
+    CONSTRAINT PK_PessoaContato PRIMARY KEY (IdPessoa, IdContato)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaFisica 
+--
+
+CREATE TABLE PessoaFisica(
+    IdPessoa             NUMBER(38, 0)    NOT NULL,
+    NrCpfPessoa          VARCHAR2(11)     NOT NULL,
+    NmPessoa             VARCHAR2(60)     NOT NULL,
+    NmApelido            VARCHAR2(40),
+    InSexo               CHAR(1)          NOT NULL,
+    InRaca               NUMBER(38, 0),
+    InEstadoCivil        NUMBER(38, 0),
+    InGrauInstrucao      CHAR(2),
+    DtNacimento          DATE,
+    NmPai                VARCHAR2(60),
+    NmMae                VARCHAR2(60),
+    IdMunicipioNascto    NUMBER(38, 0),
+    NrCartaoSaude        VARCHAR2(20),
+    NrPis                VARCHAR2(20),
+    DtInclusaoPis        DATE,
+    InSituacao           NUMBER(38, 0),
+    CONSTRAINT PK_PessoaFisica PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaFisicaCnh 
+--
+
+CREATE TABLE PessoaFisicaCnh(
+    IdPessoa             NUMBER(38, 0)    NOT NULL,
+    NrCnh                BLOB             NOT NULL,
+    DtExpedicao          DATE,
+    IdUf                 NUMBER(38, 0)    NOT NULL,
+    DtValidade           DATE             NOT NULL,
+    NmCategoria          VARCHAR2(2)      NOT NULL,
+    DtPrimeiraHabilit    DATE,
+    CONSTRAINT PK_PessoaFisicaCnh PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaFisicaCtps 
+--
+
+CREATE TABLE PessoaFisicaCtps(
+    IdPessoa     NUMBER(38, 0)    NOT NULL,
+    NrCtps       VARCHAR2(7)      NOT NULL,
+    SrCtps       VARCHAR2(7)      NOT NULL,
+    DtEmissao    DATE             NOT NULL,
+    IdUf         NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_PessoaFisicaCtps PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaFisicaRg 
+--
+
+CREATE TABLE PessoaFisicaRg(
+    IdPessoa     NUMBER(38, 0)    NOT NULL,
+    NrRg         VARCHAR2(20)     NOT NULL,
+    NmEmissor    VARCHAR2(20)     NOT NULL,
+    DtEmissao    DATE             NOT NULL,
+    CONSTRAINT PK_PessoaFisicaRg PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: PessoaJuridica 
+--
+
+CREATE TABLE PessoaJuridica(
+    IdPessoa         NUMBER(38, 0)    NOT NULL,
+    NrCnpj           VARCHAR2(14)     NOT NULL,
+    NmRazaoSocial    VARCHAR2(60)     NOT NULL,
+    NmFantasia       VARCHAR2(60),
+    NrIE             VARCHAR2(20),
+    NrIm             VARCHAR2(20),
+    NrSuframa        VARCHAR2(20),
+    IdClassTrib      NUMBER(38, 0),
+    IdNatJuridica    NUMBER(38, 0),
+    CdFpas           NUMBER(38, 0),
+    InOpcaoTrib      NUMBER(38, 0),
+    InRegimeTrib     NUMBER(38, 0)    NOT NULL,
+    QtEmpregado      NUMBER(38, 0),
+    InSituacao       NUMBER(38, 0),
+    CONSTRAINT PK_PessoaJuridica PRIMARY KEY (IdPessoa)
+)
+;
+
+
+
+-- 
+-- TABLE: Produto 
+--
+
+CREATE TABLE Produto(
+    IdProduto       NUMBER(38, 0)     NOT NULL,
+    CdProduto       VARCHAR2(20)      NOT NULL,
+    CdBarra         VARCHAR2(20),
+    NmProduto       VARCHAR2(60)      NOT NULL,
+    IdCfop          NUMBER(38, 0),
+    IdNcm           NUMBER(38, 0)     NOT NULL,
+    CdExTipi        NUMBER(38, 0),
+    IdUnPadrao      NUMBER(38, 0)     NOT NULL,
+    IdUnVenda       NUMBER(38, 0)     NOT NULL,
+    IdUnCompra      NUMBER(38, 0)     NOT NULL,
+    InOrigemMerc    NUMBER(38, 0)     NOT NULL,
+    VlCompra        NUMBER(9, 2),
+    VlVenda         NUMBER(9, 2)      NOT NULL,
+    VlMinimo        NUMBER(9, 2),
+    NrFci           VARCHAR2(36),
+    DsInfo          VARCHAR2(1024),
+    CONSTRAINT PK_Produto PRIMARY KEY (IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: ProdutoImposto 
+--
+
+CREATE TABLE ProdutoImposto(
+    IdProduto            NUMBER(38, 0)    NOT NULL,
+    PeIcms               NUMBER(3, 2),
+    PeIcmsSt             NUMBER(3, 2),
+    PeReducaoBcIcms      NUMBER(3, 2),
+    PeReducaoBcIcmsSt    NUMBER(3, 2),
+    PeIpi                NUMBER(3, 2),
+    PeMva                NUMBER(3, 2),
+    CdCstIcms            NUMBER(38, 0),
+    CdCstIpi             NUMBER(38, 0),
+    CdCstPis             NUMBER(38, 0),
+    CdCstCofins          NUMBER(38, 0),
+    CdCsosn              NUMBER(38, 0),
+    CONSTRAINT PK_ProdutoImposto PRIMARY KEY (IdProduto)
+)
+;
+
+
+
+-- 
+-- TABLE: ProdutoMovto 
+--
+
+CREATE TABLE ProdutoMovto(
+    IdProdutoMovto    NUMBER(38, 0)     NOT NULL,
+    IdProduto         NUMBER(38, 0)     NOT NULL,
+    IdNFVenda         NUMBER(38, 0)     NOT NULL,
+    IdNFCompra        NUMBER(38, 0)     NOT NULL,
+    InTipoMovto       NUMBER(38, 0)     NOT NULL,
+    DtMovto           TIMESTAMP(6)      NOT NULL,
+    QtMovto           NUMBER(9, 2)      NOT NULL,
+    InAutoriaMovto    NUMBER(38, 0)     NOT NULL,
+    DsInfo            VARCHAR2(1024),
+    CONSTRAINT PK115 PRIMARY KEY (IdProdutoMovto)
+)
+;
+
+
+
+-- 
+-- TABLE: Serie 
+--
+
+CREATE TABLE Serie(
+    IdSerie          NUMBER(38, 0)    NOT NULL,
+    IdEmpresa        NUMBER(38, 0)    NOT NULL,
+    CdSerie          VARCHAR2(5)      NOT NULL,
+    NmSerie          VARCHAR2(60),
+    NrInicial        NUMBER(38, 0)    NOT NULL,
+    NrAtual          NUMBER(38, 0)    NOT NULL,
+    InUsoSerie       CHAR(51)         NOT NULL,
+    InSeriePadrao    CHAR(1)          NOT NULL,
+    CONSTRAINT PK_Serie PRIMARY KEY (IdSerie)
+)
+;
+
+
+
+-- 
+-- TABLE: UF 
+--
+
+CREATE TABLE UF(
+    IdUf      NUMBER(38, 0)    NOT NULL,
+    NmUf      VARCHAR2(60)     NOT NULL,
+    CdUf      CHAR(2)          NOT NULL,
+    CdIbge    CHAR(2),
+    IdPais    NUMBER(38, 0)    NOT NULL,
+    CONSTRAINT PK_UF PRIMARY KEY (IdUf)
+)
+;
+
+
+
+-- 
+-- TABLE: UnConversao 
+--
+
+CREATE TABLE UnConversao(
+    IdUnConversao    NUMBER(38, 0)    NOT NULL,
+    IdUnOrigem       NUMBER(38, 0)    NOT NULL,
+    IdUnDestino      NUMBER(38, 0)    NOT NULL,
+    VlFator          NUMBER(3, 2)     NOT NULL,
+    CONSTRAINT PK_UnMedida_1 PRIMARY KEY (IdUnConversao)
+)
+;
+
+
+
+-- 
+-- TABLE: UnMedida 
+--
+
+CREATE TABLE UnMedida(
+    IdUnMedida    NUMBER(38, 0)    NOT NULL,
+    NmUnMedida    VARCHAR2(60)     NOT NULL,
+    CdUnMedida    VARCHAR2(4)      NOT NULL,
+    CONSTRAINT PK_UnMedida PRIMARY KEY (IdUnMedida)
+)
+;
+
+
+
+-- 
+-- TABLE: Usuario 
+--
+
+CREATE TABLE Usuario(
+    IdUsuario         NUMBER(38, 0)    NOT NULL,
+    Login             VARCHAR2(40)     NOT NULL,
+    Senha             VARCHAR2(512)    NOT NULL,
+    IdPerfilAcesso    NUMBER(38, 0)    NOT NULL,
+    DtCadastro        DATE             NOT NULL,
+    DtValSenha        DATE,
+    CONSTRAINT PK_Usuario PRIMARY KEY (IdUsuario)
+)
+;
+
+
+
+-- 
+-- TABLE: AgBancaria 
+--
+
+ALTER TABLE AgBancaria ADD CONSTRAINT FK_Banco_AgBancaria 
+    FOREIGN KEY (IdBanco)
+    REFERENCES Banco(IdBanco)
+;
+
+ALTER TABLE AgBancaria ADD CONSTRAINT FK_Logradouro_AgBancaria 
+    FOREIGN KEY (IdLogradouro)
+    REFERENCES Logradouro(IdLogradouro)
+;
+
+
+-- 
+-- TABLE: BancoCarteira 
+--
+
+ALTER TABLE BancoCarteira ADD CONSTRAINT FK_Banco_BancoCarteira
+    FOREIGN KEY (IdBanco)
+    REFERENCES Banco(IdBanco)
+;
+
+
+-- 
+-- TABLE: BancoInstrucao 
+--
+
+ALTER TABLE BancoInstrucao ADD CONSTRAINT FK_Banco_BancoInstrucao
+    FOREIGN KEY (IdBanco)
+    REFERENCES Banco(IdBanco)
+;
+
+
+-- 
+-- TABLE: BancoOcorrencia 
+--
+
+ALTER TABLE BancoOcorrencia ADD CONSTRAINT FK_Banco_BancoOcorrencia 
+    FOREIGN KEY (IdBanco)
+    REFERENCES Banco(IdBanco)
+;
+
+
+-- 
+-- TABLE: Caixa 
+--
+
+ALTER TABLE Caixa ADD CONSTRAINT FK_Empresa_Caixa 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+
+-- 
+-- TABLE: CaixaMovto 
+--
+
+ALTER TABLE CaixaMovto ADD CONSTRAINT FK_Caixa_CaixaMovto 
+    FOREIGN KEY (IdCaixa)
+    REFERENCES Caixa(IdCaixa)
+;
+
+ALTER TABLE CaixaMovto ADD CONSTRAINT FK_NotaFiscal_CaixaMovto 
+    FOREIGN KEY (IdNFVenda)
+    REFERENCES NotaFiscal(IdNf)
+;
+
+ALTER TABLE CaixaMovto ADD CONSTRAINT FK_Usuario_CaixaMovto 
+    FOREIGN KEY (IdUsuario)
+    REFERENCES Usuario(IdUsuario)
+;
+
+
+-- 
+-- TABLE: Cliente 
+--
+
+ALTER TABLE Cliente ADD CONSTRAINT FK_Empresa_Cliente 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE Cliente ADD CONSTRAINT FK_Pessoa_Cliente 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+ALTER TABLE Cliente ADD CONSTRAINT FK_PessoaFisica_Cliente 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+
+-- 
+-- TABLE: CondPagtoParcela 
+--
+
+ALTER TABLE CondPagtoParcela ADD CONSTRAINT FK_CondicaoPagto_CondPagtoParcela 
+    FOREIGN KEY (IdCondPagto)
+    REFERENCES CondicaoPagto(IdCondPagto)
+;
+
+
+-- 
+-- TABLE: ContaCorrente 
+--
+
+ALTER TABLE ContaCorrente ADD CONSTRAINT FK_AgBancaria_ContaCorrente
+    FOREIGN KEY (IdAgencia)
+    REFERENCES AgBancaria(IdAgencia)
+;
+
+
+-- 
+-- TABLE: Empresa 
+--
+
+ALTER TABLE Empresa ADD CONSTRAINT FK_Empresa_Empresa 
+    FOREIGN KEY (IdEmpresaMatriz)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE Empresa ADD CONSTRAINT FK_PessoaJuridica_Empresa
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaJuridica(IdPessoa)
+;
+
+
+-- 
+-- TABLE: Fatura 
+--
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_BancoCarteira_Fatura
+    FOREIGN KEY (IdCarteira)
+    REFERENCES BancoCarteira(IdCarteira)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_CondicaoPagto_Fatura 
+    FOREIGN KEY (IdCondPagto)
+    REFERENCES CondicaoPagto(IdCondPagto)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_ContaCorrente_Fatura
+    FOREIGN KEY (IdContaCorrente)
+    REFERENCES ContaCorrente(IdContaCorrente)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_Empresa_Fatura 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_EspecieFatura_Fatura 
+    FOREIGN KEY (IdEspecieFat)
+    REFERENCES EspecieFatura(IdEspecieFat)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_Pessoa_Fatura 
+    FOREIGN KEY (IdCedente)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_Sacado_Fatura 
+    FOREIGN KEY (IdSacado)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+ALTER TABLE Fatura ADD CONSTRAINT FK_Serie_Fatura 
+    FOREIGN KEY (IdSerie)
+    REFERENCES Serie(IdSerie)
+;
+
+
+-- 
+-- TABLE: FaturaInstrucao 
+--
+
+ALTER TABLE FaturaInstrucao ADD CONSTRAINT FK_BancoInstrucao_FaturaInstrucao 
+    FOREIGN KEY (IdInstrucao)
+    REFERENCES BancoInstrucao(IdInstrucao)
+;
+
+ALTER TABLE FaturaInstrucao ADD CONSTRAINT FK_Fatura_FaturaInstrucao 
+    FOREIGN KEY (IdFatura)
+    REFERENCES Fatura(IdFatura)
+;
+
+
+-- 
+-- TABLE: FaturaLancto 
+--
+
+ALTER TABLE FaturaLancto ADD CONSTRAINT FK_Fatura_FaturaLancto 
+    FOREIGN KEY (IdFatura)
+    REFERENCES Fatura(IdFatura)
+;
+
+
+-- 
+-- TABLE: Fornecedor 
+--
+
+ALTER TABLE Fornecedor ADD CONSTRAINT FK_Empresa_Fornecedor 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE Fornecedor ADD CONSTRAINT FK_Pessoa_Fornecedor 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+ALTER TABLE Fornecedor ADD CONSTRAINT FK_PessoaFisica_Fornecedor 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+
+-- 
+-- TABLE: Funcionario 
+--
+
+ALTER TABLE Funcionario ADD CONSTRAINT FK_Cargo_Funcionario 
+    FOREIGN KEY (IdCargo)
+    REFERENCES Cargo(IdCargo)
+;
+
+ALTER TABLE Funcionario ADD CONSTRAINT FK_CategoriaTrab_Funcionario 
+    FOREIGN KEY (IdCategoriaTrab)
+    REFERENCES CategoriaTrab(IdCategoriaTrab)
+;
+
+ALTER TABLE Funcionario ADD CONSTRAINT FK_Empresa_Funcionario 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE Funcionario ADD CONSTRAINT FK_Jornada_Funcionario 
+    FOREIGN KEY (IdJornada)
+    REFERENCES Jornada(IdJornada)
+;
+
+ALTER TABLE Funcionario ADD CONSTRAINT FK_PessoaFisica_Funcionario 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+
+-- 
+-- TABLE: FuncionarioDef 
+--
+
+ALTER TABLE FuncionarioDef ADD CONSTRAINT FK_Funcionario_FuncionarioDef 
+    FOREIGN KEY (IdFuncionario)
+    REFERENCES Funcionario(IdFuncionario)
+;
+
+
+-- 
+-- TABLE: FuncionarioDep 
+--
+
+ALTER TABLE FuncionarioDep ADD CONSTRAINT FK_Funcionario_FuncionarioDep 
+    FOREIGN KEY (IdFuncionario)
+    REFERENCES Funcionario(IdFuncionario)
+;
+
+
+-- 
+-- TABLE: FuncionarioDeslig 
+--
+
+ALTER TABLE FuncionarioDeslig ADD CONSTRAINT FK_Funcionario_FuncionarioDeslig 
+    FOREIGN KEY (IdFuncionario)
+    REFERENCES Funcionario(IdFuncionario)
+;
+
+
+-- 
+-- TABLE: HorarioIntervalo 
+--
+
+ALTER TABLE HorarioIntervalo ADD CONSTRAINT FK_Horario_HorarioIntervalo 
+    FOREIGN KEY (IdHorario)
+    REFERENCES Horario(IdHorario)
+;
+
+
+-- 
+-- TABLE: Jornada 
+--
+
+ALTER TABLE Jornada ADD CONSTRAINT FK_Empresa_Jornada 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+
+-- 
+-- TABLE: JornadaHorario 
+--
+
+ALTER TABLE JornadaHorario ADD CONSTRAINT FK_Horario_JornadaHorario 
+    FOREIGN KEY (IdHorario)
+    REFERENCES Horario(IdHorario)
+;
+
+ALTER TABLE JornadaHorario ADD CONSTRAINT FK_Jornada_JornadaHorario 
+    FOREIGN KEY (IdJornada)
+    REFERENCES Jornada(IdJornada)
+;
+
+
+-- 
+-- TABLE: Logradouro 
+--
+
+ALTER TABLE Logradouro ADD CONSTRAINT FK_Municipio_Logradouro 
+    FOREIGN KEY (IdMunicipio)
+    REFERENCES Municipio(IdMunicipio)
+;
+
+
+-- 
+-- TABLE: Municipio 
+--
+
+ALTER TABLE Municipio ADD CONSTRAINT FK_UF_Municipio 
+    FOREIGN KEY (IdUf)
+    REFERENCES UF(IdUf)
+;
+
+
+-- 
+-- TABLE: NfPagamento 
+--
+
+ALTER TABLE NfPagamento ADD CONSTRAINT FK_NotaFiscal_NfPagamento 
+    FOREIGN KEY (IdNf)
+    REFERENCES NotaFiscal(IdNf)
+;
+
+
+-- 
+-- TABLE: NfProduto 
+--
+
+ALTER TABLE NfProduto ADD CONSTRAINT FK_Cfop_NfProduto 
+    FOREIGN KEY (IdCfop)
+    REFERENCES Cfop(IdCfop)
+;
+
+ALTER TABLE NfProduto ADD CONSTRAINT FK_NotaFiscal_NfProduto 
+    FOREIGN KEY (IdNf)
+    REFERENCES NotaFiscal(IdNf)
+;
+
+ALTER TABLE NfProduto ADD CONSTRAINT FK_Produto_NfProduto 
+    FOREIGN KEY (IdProduto)
+    REFERENCES Produto(IdProduto)
+;
+
+
+-- 
+-- TABLE: NfProdutoCofins 
+--
+
+ALTER TABLE NfProdutoCofins ADD CONSTRAINT FK_NfProduto_NfProdutoCofins 
+    FOREIGN KEY (IdNf, IdProduto)
+    REFERENCES NfProduto(IdNf, IdProduto)
+;
+
+
+-- 
+-- TABLE: NfProdutoIcms 
+--
+
+ALTER TABLE NfProdutoIcms ADD CONSTRAINT FK_NfProduto_NfProdutoIcms 
+    FOREIGN KEY (IdNf, IdProduto)
+    REFERENCES NfProduto(IdNf, IdProduto)
+;
+
+
+-- 
+-- TABLE: NfProdutoIcmsSn 
+--
+
+ALTER TABLE NfProdutoIcmsSn ADD CONSTRAINT FK_NfProduto_NfProdutoIcmsSn 
+    FOREIGN KEY (IdNf, IdProduto)
+    REFERENCES NfProduto(IdNf, IdProduto)
+;
+
+
+-- 
+-- TABLE: NfProdutoIpi 
+--
+
+ALTER TABLE NfProdutoIpi ADD CONSTRAINT FK_NfProduto_NfProdutoIpi 
+    FOREIGN KEY (IdNf, IdProduto)
+    REFERENCES NfProduto(IdNf, IdProduto)
+;
+
+
+-- 
+-- TABLE: NfProdutoPis 
+--
+
+ALTER TABLE NfProdutoPis ADD CONSTRAINT FK_NfProduto_NfProdutoPis 
+    FOREIGN KEY (IdNf, IdProduto)
+    REFERENCES NfProduto(IdNf, IdProduto)
+;
+
+
+-- 
+-- TABLE: NfTotal 
+--
+
+ALTER TABLE NfTotal ADD CONSTRAINT FK_NotaFiscal_NfTotal 
+    FOREIGN KEY (IdNf)
+    REFERENCES NotaFiscal(IdNf)
+;
+
+
+-- 
+-- TABLE: NotaFiscal 
+--
+
+ALTER TABLE NotaFiscal ADD CONSTRAINT FK_Caixa_NotaFiscal 
+    FOREIGN KEY (IdCaixa)
+    REFERENCES Caixa(IdCaixa)
+;
+
+ALTER TABLE NotaFiscal ADD CONSTRAINT FK_Cliente_NotaFiscal 
+    FOREIGN KEY (IdCliente)
+    REFERENCES Cliente(IdCliente)
+;
+
+ALTER TABLE NotaFiscal ADD CONSTRAINT FK_CondicaoPagto_NotaFiscal 
+    FOREIGN KEY (IdCondPagto)
+    REFERENCES CondicaoPagto(IdCondPagto)
+;
+
+ALTER TABLE NotaFiscal ADD CONSTRAINT FK_Empresa_NotaFiscal 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+ALTER TABLE NotaFiscal ADD CONSTRAINT FK_Serie_NotaFiscal 
+    FOREIGN KEY (IdSerie)
+    REFERENCES Serie(IdSerie)
+;
+
+
+-- 
+-- TABLE: Pessoa 
+--
+
+ALTER TABLE Pessoa ADD CONSTRAINT FK_Logradouro_Pessoa 
+    FOREIGN KEY (IdLogradouro)
+    REFERENCES Logradouro(IdLogradouro)
+;
+
+
+-- 
+-- TABLE: PessoaContato 
+--
+
+ALTER TABLE PessoaContato ADD CONSTRAINT FK_Pessoa_PessoaContato 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+
+-- 
+-- TABLE: PessoaFisica 
+--
+
+ALTER TABLE PessoaFisica ADD CONSTRAINT FK_Municipio_PessoaFisica 
+    FOREIGN KEY (IdMunicipioNascto)
+    REFERENCES Municipio(IdMunicipio)
+;
+
+ALTER TABLE PessoaFisica ADD CONSTRAINT FK_Pessoa_PessoaFisica 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+
+-- 
+-- TABLE: PessoaFisicaCnh 
+--
+
+ALTER TABLE PessoaFisicaCnh ADD CONSTRAINT FK_PessoaFisica_PessoaFisicaCnh 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+ALTER TABLE PessoaFisicaCnh ADD CONSTRAINT FK_UF_PessoaFisicaCnh 
+    FOREIGN KEY (IdUf)
+    REFERENCES UF(IdUf)
+;
+
+
+-- 
+-- TABLE: PessoaFisicaCtps 
+--
+
+ALTER TABLE PessoaFisicaCtps ADD CONSTRAINT FK_PessoaFisica_PessoaFisicaCtps 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+ALTER TABLE PessoaFisicaCtps ADD CONSTRAINT FK_UF_PessoaFisicaCtps 
+    FOREIGN KEY (IdUf)
+    REFERENCES UF(IdUf)
+;
+
+
+-- 
+-- TABLE: PessoaFisicaRg 
+--
+
+ALTER TABLE PessoaFisicaRg ADD CONSTRAINT FK_PessoaFisica_PessoaFisicaRg 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES PessoaFisica(IdPessoa)
+;
+
+
+-- 
+-- TABLE: PessoaJuridica 
+--
+
+ALTER TABLE PessoaJuridica ADD CONSTRAINT FK_ClassTrib_PessoaJuridica
+    FOREIGN KEY (IdClassTrib)
+    REFERENCES ClassTrib(IdClassTrib)
+;
+
+ALTER TABLE PessoaJuridica ADD CONSTRAINT FK_NatJuridica_PessoaJuridica
+    FOREIGN KEY (IdNatJuridica)
+    REFERENCES NatJuridica(IdNatJuridica)
+;
+
+ALTER TABLE PessoaJuridica ADD CONSTRAINT FK_Pessoa_PessoaJuridica 
+    FOREIGN KEY (IdPessoa)
+    REFERENCES Pessoa(IdPessoa)
+;
+
+
+-- 
+-- TABLE: Produto 
+--
+
+ALTER TABLE Produto ADD CONSTRAINT FK_Cfop_Produto 
+    FOREIGN KEY (IdCfop)
+    REFERENCES Cfop(IdCfop)
+;
+
+ALTER TABLE Produto ADD CONSTRAINT FK_ClassFiscalProduto_Produto 
+    FOREIGN KEY (IdNcm)
+    REFERENCES ClassFiscalProduto(IdNcm)
+;
+
+ALTER TABLE Produto ADD CONSTRAINT FK_UnCompra_Produto 
+    FOREIGN KEY (IdUnCompra)
+    REFERENCES UnMedida(IdUnMedida)
+;
+
+ALTER TABLE Produto ADD CONSTRAINT FK_UnPadrao_Produto 
+    FOREIGN KEY (IdUnPadrao)
+    REFERENCES UnMedida(IdUnMedida)
+;
+
+ALTER TABLE Produto ADD CONSTRAINT FK_UnVenda_Produto 
+    FOREIGN KEY (IdUnVenda)
+    REFERENCES UnMedida(IdUnMedida)
+;
+
+
+-- 
+-- TABLE: ProdutoImposto 
+--
+
+ALTER TABLE ProdutoImposto ADD CONSTRAINT FK_Produto_ProdutoImposto 
+    FOREIGN KEY (IdProduto)
+    REFERENCES Produto(IdProduto)
+;
+
+
+-- 
+-- TABLE: ProdutoMovto 
+--
+
+ALTER TABLE ProdutoMovto ADD CONSTRAINT FK_NotaFiscal_ProdutoMovto 
+    FOREIGN KEY (IdNFVenda)
+    REFERENCES NotaFiscal(IdNf)
+;
+
+ALTER TABLE ProdutoMovto ADD CONSTRAINT FK_Produto_ProdutoMovto 
+    FOREIGN KEY (IdProduto)
+    REFERENCES Produto(IdProduto)
+;
+
+
+-- 
+-- TABLE: Serie 
+--
+
+ALTER TABLE Serie ADD CONSTRAINT FK_Empresa_Serie 
+    FOREIGN KEY (IdEmpresa)
+    REFERENCES Empresa(IdEmpresa)
+;
+
+
+-- 
+-- TABLE: UF 
+--
+
+ALTER TABLE UF ADD CONSTRAINT FK_Pais_UF 
+    FOREIGN KEY (IdPais)
+    REFERENCES Pais(IdPais)
+;
+
+
+-- 
+-- TABLE: UnConversao 
+--
+
+ALTER TABLE UnConversao ADD CONSTRAINT FK_UnMedida_UnDestino 
+    FOREIGN KEY (IdUnDestino)
+    REFERENCES UnMedida(IdUnMedida)
+;
+
+ALTER TABLE UnConversao ADD CONSTRAINT FK_UnMedida_UnOrigem 
+    FOREIGN KEY (IdUnOrigem)
+    REFERENCES UnMedida(IdUnMedida)
+;
+
+
+-- 
+-- TABLE: Usuario 
+--
+
+ALTER TABLE Usuario ADD CONSTRAINT FK_Funcionario_Usuario 
+    FOREIGN KEY (IdUsuario)
+    REFERENCES Funcionario(IdFuncionario)
+;
+
+ALTER TABLE Usuario ADD CONSTRAINT FK_PerfilAcesso_Usuario
+    FOREIGN KEY (IdPerfilAcesso)
+    REFERENCES PerfilAcesso(IdPerfilAcesso)
+;
+
+

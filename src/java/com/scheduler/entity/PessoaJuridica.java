@@ -1,23 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.scheduler.entity;
 
 import com.scheduler.util.Enumerators;
 import java.util.Calendar;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
  * @author daniel
  */
+@Entity
+@Table(name="tb_pessoajur")
 public class PessoaJuridica extends Pessoa {
     
+    @Column(name="nr_cnpj")
     private String cnpj;
+    
+    @Column(name="nm_razaosocial")
     private String razaSocial;
+    
+    @Column(name="nm_fantasia")
+    private String Fantasia;
+    
+    @Column(name="nr_ie")
     private String InscEstadual;
+    
+    @Column(name="nr_im")
     private String InscMunicipal;
+    
+    /*** Construtor ***/
+    public PessoaJuridica(){
+        this.setTipo(Enumerators.TipoPessoa.PessoaJuridica);
+        this.setDataCadastro(Calendar.getInstance().getTime());
+    }
     
     public String getCnpj() {
         return cnpj;
@@ -47,8 +63,10 @@ public class PessoaJuridica extends Pessoa {
         this.InscMunicipal = InscMunicipal;
     }
     
-    public PessoaJuridica(){
-        this.setTipo(Enumerators.TipoPessoa.PessoaJuridica);
-        this.setDataCadastro(Calendar.getInstance().getTime());
+    public String getFantasia() {
+        return Fantasia;
+    }
+    public void setFantasia(String Fantasia) {
+        this.Fantasia = Fantasia;
     }
 }
